@@ -3,6 +3,8 @@ package projekt.delivery.routing;
 import org.jetbrains.annotations.NotNull;
 import projekt.base.Location;
 
+import java.util.Objects;
+
 import static org.tudalgo.algoutils.student.Student.crash;
 
 /**
@@ -76,12 +78,12 @@ class EdgeImpl implements Region.Edge {
 
     @Override
     public Region.Node getNodeA() {
-        return crash(); // TODO: H4.1 - remove if implemented
+        return region.getNode(locationA); //locationA / null
     }
 
     @Override
     public Region.Node getNodeB() {
-        return crash(); // TODO: H4.1 - remove if implemented
+        return region.getNode(locationB); //locationB / null
     }
 
     @Override
@@ -91,16 +93,22 @@ class EdgeImpl implements Region.Edge {
 
     @Override
     public boolean equals(Object o) {
-        return crash(); // TODO: H4.3 - remove if implemented
+        if (this == o) { //identical?
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) { //null or not the correct data type
+            return false;
+        }
+        return Objects.equals(name, ((EdgeImpl) o).name) && Objects.equals(locationA, ((EdgeImpl) o).locationA) && Objects.equals(locationB, ((EdgeImpl) o).locationB) && duration == ((EdgeImpl) o).duration;
     }
 
     @Override
     public int hashCode() {
-        return crash(); // TODO: H4.4 - remove if implemented
+        return Objects.hash(name, locationA, locationB, duration);
     }
 
     @Override
     public String toString() {
-        return crash(); // TODO: H4.5 - remove if implemented
+        return "EdgeImpl(name='" + name + "', locationA='" + locationA + "', locationB='" + locationB + "', duration='" + duration + "')";
     }
 }
