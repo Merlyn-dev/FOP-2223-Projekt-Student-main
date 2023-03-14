@@ -71,21 +71,36 @@ public final class Location implements Comparable<Location> {
 
     @Override
     public int compareTo(@NotNull Location o) {
-        return crash(); // TODO: H1.1 - remove if implemented
+        if (this.x == o.x && this.y == o.y) {
+            return 0;
+        }
+        else if (this.x < o.x || (this.x == o.x && this.y < o.y)) {
+            return -1;
+        }
+        else  {
+            return +1;
+        }
     }
 
     @Override
     public int hashCode() {
-        return crash(); // TODO: H1.2 - remove if implemented
+        int n = 37;
+        int r = 1;
+        r = n * r + x;
+        r = n * r + y;
+        return r;
     }
 
     @Override
     public boolean equals(Object o) {
-        return crash(); // TODO: H1.3 - remove if implemented
+        if (o == null || !(o instanceof Location)) { // 0 oder nicht Typ von Location?
+            return false;
+        }
+        return this.x == ((Location) o).x && this.y == ((Location) o).y;
     }
 
     @Override
     public String toString() {
-        return crash(); // TODO: H1.4 - remove if implemented
+        return "(" + x + "," + y + ")";
     }
 }
