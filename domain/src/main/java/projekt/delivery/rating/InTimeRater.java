@@ -2,6 +2,7 @@ package projekt.delivery.rating;
 
 import projekt.delivery.event.Event;
 import projekt.delivery.routing.ConfirmedOrder;
+import projekt.delivery.routing.Vehicle;
 import projekt.delivery.simulation.Simulation;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class InTimeRater implements Rater {
 
     public static final RatingCriteria RATING_CRITERIA = RatingCriteria.IN_TIME;
 
-    private final long ignoredTicksOff;
+    private final long ignoredTicksOff; //tolerance of Lieferzeit
     private final long maxTicksOff;
 
     /**
@@ -35,7 +36,14 @@ public class InTimeRater implements Rater {
 
     @Override
     public double getScore() {
-        return crash(); // TODO: H8.2 - remove if implemented
+        int actualTotalTicksOff = 0 //muss noch geändert werden: Vehicle.getOrders().stream().mapToDouble(ConfirmedOrder::getActualDeliveryTick).sum();; //actualTotalTicksOff muss so verändert werden, dass es die Summe der Verspätungen aller Bestellungen in Ticks ist
+        int maxTotalTicksOff = 0; //muss noch geändert werden irgendwie mit onTick-Methode
+        if (maxTotalTicksOff == 0) {
+            return 0;
+        }
+        else {
+            return 1 - actualTotalTicksOff/maxTotalTicksOff;
+        }
     }
 
     @Override

@@ -18,13 +18,22 @@ public class AmountDeliveredRater implements Rater {
 
     private final double factor;
 
+    private int undeliveredOrders;
+
+    private int totalOrders;
+
     private AmountDeliveredRater(double factor) {
         this.factor = factor;
     }
 
     @Override
     public double getScore() {
-        return crash(); // TODO: H8.1 - remove if implemented
+        if (0 <= undeliveredOrders && undeliveredOrders < totalOrders * (1-factor)) {
+            return 1 - undeliveredOrders/(totalOrders*(1-factor));
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override

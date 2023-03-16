@@ -32,7 +32,14 @@ public class TravelDistanceRater implements Rater {
 
     @Override
     public double getScore() {
-        return crash(); // TODO: H8.3 - remove if implemented
+        double actualDistance = 17; //muss noch geändert werden
+        double worstDistance = 1; //muss noch geändert werden
+        if (0 <= actualDistance || actualDistance < worstDistance*factor) {
+            return 1 - actualDistance/(worstDistance*factor);
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
