@@ -65,7 +65,7 @@ class RegionImpl implements Region {
      * @param node the {@link NodeImpl} to add.
      */
     void putNode(NodeImpl node) {
-        if (!nodes.containsKey(node.getLocation())) {
+        if (!this.equals(node.getRegion())) {
             throw new IllegalArgumentException("Node" + node + " has incorrect region"); //not in the map
         }
         nodes.put(node.getLocation(), node); //only if no exception is thrown
@@ -86,6 +86,7 @@ class RegionImpl implements Region {
         if (!nodes.containsValue(edge.getNodeA()) || !nodes.containsValue(edge.getNodeB())) {
             throw new IllegalArgumentException("Node" + edge + " has incorrect region");
         }
+        allEdges.add(edge);
     }
 
     @Override

@@ -56,9 +56,14 @@ class VehicleImpl implements Vehicle {
 
     @Override
     public void moveQueued(Region.Node node, BiConsumer<? super Vehicle, Long> arrivalAction) {
+        //Knoten
         if (moveQueue.size() > 0) {
             throw new IllegalArgumentException("");
         }
+        //neues PathImpl Objekt
+        //PathImpl route = vehicleManager.getPathCalculator().getPath(Node, node);
+
+
         moveQueue.offer(new PathImpl((Deque<Region.Node>) node, arrivalAction)); //--
     }
 
