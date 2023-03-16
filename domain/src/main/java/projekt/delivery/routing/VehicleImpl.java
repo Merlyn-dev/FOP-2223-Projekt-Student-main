@@ -56,7 +56,10 @@ class VehicleImpl implements Vehicle {
 
     @Override
     public void moveQueued(Region.Node node, BiConsumer<? super Vehicle, Long> arrivalAction) {
-        crash(); // TODO: H5.3 - remove if implemented
+        if (moveQueue.size() > 0) {
+            throw new IllegalArgumentException("");
+        }
+        moveQueue.offer(new PathImpl((Deque<Region.Node>) node, arrivalAction)); //--
     }
 
     @Override
@@ -125,11 +128,20 @@ class VehicleImpl implements Vehicle {
     }
 
     void loadOrder(ConfirmedOrder order) {
-        crash(); // TODO: H5.2 - remove if implemented
+        if (orders.size() >= capacity) {
+            throw new VehicleOverloadedException(this, capacity); //---------
+        }
+
+        double komplettesGewicht = orders.stream().mapToDouble(ConfirmedOrder::getWeight).sum(); //ordergewicht
+
+        if (komplettesGewicht + order.getWeight() < capacity) { //is getweight = foodweight?
+            throw new VehicleOverloadedException(this, komplettesGewicht - capacity); //---------
+        }
+        orders.add(order);
     }
 
     void unloadOrder(ConfirmedOrder order) {
-        crash(); // TODO: H5.2 - remove if implemented
+        orders.remove(order);
     }
 
     @Override

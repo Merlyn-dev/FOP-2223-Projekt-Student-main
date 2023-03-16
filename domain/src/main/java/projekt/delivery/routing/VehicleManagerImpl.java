@@ -31,11 +31,27 @@ class VehicleManagerImpl implements VehicleManager {
     }
 
     private Map<Region.Node, OccupiedNodeImpl<? extends Region.Node>> toOccupiedNodes(Collection<Region.Node> nodes) {
-        return crash(); // TODO: H6.1 - remove if implemented
+        Map<Region.Node, OccupiedNodeImpl<? extends Region.Node>> res = new HashMap<>();
+        for (Region.Node node : nodes) {
+            if (node instanceof Region.Restaurant) { //Restaurant
+                res.put(node, new OccupiedRestaurantImpl((Region.Restaurant) node, this));
+            }
+            else if (node instanceof Region.Neighborhood) { //Neighborhood
+                res.put(node, new OccupiedNeighborhoodImpl((Region.Neighborhood) node, this));
+            }
+            else {
+                res.put(node, new OccupiedNodeImpl<>(node, this));
+            }
+        }
+        return Collections.unmodifiableMap(res);
     }
 
     private Map<Region.Edge, OccupiedEdgeImpl> toOccupiedEdges(Collection<Region.Edge> edges) {
-        return crash(); // TODO: H6.1 - remove if implemented
+        Map<Region.Edge, OccupiedEdgeImpl> res = new HashMap<>();
+        for (Region.Edge edge : edges) {
+            res.put(edge, new OccupiedEdgeImpl(edge, this)); //---
+        }
+        return Collections.unmodifiableMap(res);
     }
 
     private Set<AbstractOccupied<?>> getAllOccupied() {
@@ -73,7 +89,18 @@ class VehicleManagerImpl implements VehicleManager {
 
     @Override
     public <C extends Region.Component<C>> AbstractOccupied<C> getOccupied(C component) {
-        return crash(); // TODO: H6.3 - remove if implemented
+        if (component == null) {
+            throw new NullPointerException("Component is null!");
+        }
+        if (!(component instanceof Region.Node || component instanceof Region.Edge)) {
+            throw new IllegalArgumentException("Component is not of recognized subtype: " + component.getClass().getName());
+        }
+        //Map<Region.Component, Occupied> map = component instanceof Region.Node ? occupiedNodes : occupiedEdges; //--
+        //if (map.get(component) == null) {
+        //    String type = component instanceof Region.Edge ? "edge" : "node";
+        //    throw new IllegalArgumentException("Could not find occupied " + type + " for " + component.toString());
+        //}
+        return null;
     }
 
     @Override
@@ -86,7 +113,16 @@ class VehicleManagerImpl implements VehicleManager {
 
     @Override
     public OccupiedRestaurant getOccupiedRestaurant(Region.Node node) {
-        return crash(); // TODO: H6.4- remove if implemented
+        if (node == null) {
+            throw new NullPointerException("Node is null!");
+        }
+        if (occupiedNodes.get(node) == null) { //keinen entsprechenden Schlüsselwert
+            throw new IllegalArgumentException("Node " + node.toString() + " is not an occupied restaurant");
+        }
+        if (!(occupiedNodes.get(node) instanceof OccupiedRestaurant)) { //kein Subtyp von OccupiedRestaurant
+            throw new IllegalArgumentException("Node " + node.toString() + " is not an occupied restaurant");
+        }
+        return (OccupiedRestaurant) occupiedNodes.get(node);
     }
 
     @Override
@@ -99,7 +135,16 @@ class VehicleManagerImpl implements VehicleManager {
 
     @Override
     public OccupiedNeighborhood getOccupiedNeighborhood(Region.Node node) {
-        return crash(); // TODO: H6.4 - remove if implemented
+        if (node == null) {
+            throw new NullPointerException("Node is null!");
+        }
+        if (occupiedNodes.get(node) == null) { //keinen entsprechenden Schlüsselwert
+            throw new IllegalArgumentException("Node " + node.toString() + " is not a neighborhood");
+        }
+        if (!(occupiedNodes.get(node) instanceof OccupiedNeighborhood)) { //kein Subtyp von OccupiedNeighborhood
+            throw new IllegalArgumentException("Node " + node.toString() + " is not a neighborhood");
+        }
+        return (OccupiedNeighborhood) occupiedNodes.get(node);
     }
 
     @Override

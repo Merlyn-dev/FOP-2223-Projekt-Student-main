@@ -38,6 +38,9 @@ public class FridayOrderGenerator implements OrderGenerator {
     @Override
     public List<ConfirmedOrder> generateOrders(long tick) {
         return crash(); // TODO: H7.1 - remove if implemented
+        //if (tick < 0) {
+        //    throw new IndexOutOfBoundsException("");
+        //}
     }
 
     /**
