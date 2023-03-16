@@ -5,6 +5,7 @@ import projekt.delivery.routing.ConfirmedOrder;
 import projekt.delivery.routing.VehicleManager;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.tudalgo.algoutils.student.Student.crash;
@@ -25,7 +26,28 @@ public class BasicDeliveryService extends AbstractDeliveryService {
 
     @Override
     protected List<Event> tick(long currentTick, List<ConfirmedOrder> newOrders) {
-        return crash(); // TODO: H9.1 - remove if implemented
+        List<Event> returnList = tick(currentTick); //create returnList
+        Iterator<ConfirmedOrder> it = newOrders.iterator(); //create iterator for confirmedOrder
+        //add new orders:
+        while (it.hasNext()) {
+            pendingOrders.add(it.next());
+        }
+        //sort confirmedOrder list
+        ConfirmedOrder[] ordersArray = new ConfirmedOrder[pendingOrders.size()];
+        for (int i=0; i<pendingOrders.size(); i++) {
+            ordersArray[i] = pendingOrders.get(i);
+        }
+        for (int j=0; j <= pendingOrders.size(); j++) {
+            for (int k=0; k<= pendingOrders.size(); k++) {
+                if (ordersArray[j].getActualDeliveryTick() > ordersArray[k].getActualDeliveryTick()) {
+                    ConfirmedOrder newJ = ordersArray[k];
+                    ConfirmedOrder newK = ordersArray[j];
+                    ordersArray[k] = newK;
+                    ordersArray[j] = newJ;
+                }
+            }
+        }
+        return returnList;
     }
 
     @Override
