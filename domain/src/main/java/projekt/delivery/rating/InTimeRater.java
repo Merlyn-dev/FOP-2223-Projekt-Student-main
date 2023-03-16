@@ -36,7 +36,7 @@ public class InTimeRater implements Rater {
 
     @Override
     public double getScore() {
-        int actualTotalTicksOff = 0 //muss noch geändert werden: Vehicle.getOrders().stream().mapToDouble(ConfirmedOrder::getActualDeliveryTick).sum();; //actualTotalTicksOff muss so verändert werden, dass es die Summe der Verspätungen aller Bestellungen in Ticks ist
+        int actualTotalTicksOff = 0; //muss noch geändert werden: Vehicle.getOrders().stream().mapToDouble(ConfirmedOrder::getActualDeliveryTick).sum();; //actualTotalTicksOff muss so verändert werden, dass es die Summe der Verspätungen aller Bestellungen in Ticks ist
         int maxTotalTicksOff = 0; //muss noch geändert werden irgendwie mit onTick-Methode
         if (maxTotalTicksOff == 0) {
             return 0;

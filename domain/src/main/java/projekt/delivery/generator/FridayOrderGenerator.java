@@ -19,6 +19,14 @@ public class FridayOrderGenerator implements OrderGenerator {
 
     private final Random random;
 
+    private int orderCount;
+    private VehicleManager vehicleManager;
+    private int deliveryInterval;
+    private double maxWeight;
+    private double standardDeviation;
+    private long lastTick;
+    private int seed;
+
 
     /**
      * Creates a new {@link FridayOrderGenerator} with the given parameters.
@@ -33,15 +41,25 @@ public class FridayOrderGenerator implements OrderGenerator {
      */
     private FridayOrderGenerator(int orderCount, VehicleManager vehicleManager, int deliveryInterval, double maxWeight, double standardDeviation, long lastTick, int seed) {
         random = seed < 0 ? new Random() : new Random(seed);
-        crash(); // TODO: H7.1 - remove if implemented
+        this.orderCount = orderCount;
+        this.vehicleManager = vehicleManager;
+        this.deliveryInterval = deliveryInterval;
+        this.maxWeight = maxWeight;
+        this.standardDeviation = standardDeviation;
+        this.lastTick = lastTick;
+        this.seed = seed;
     }
 
     @Override
     public List<ConfirmedOrder> generateOrders(long tick) {
+        if (tick < 0) {
+            throw new IndexOutOfBoundsException("negative tick value: " + tick);
+        }
+
+        //vehicleManager.getOccupiedNeighborhoods();
+
         return crash(); // TODO: H7.1 - remove if implemented
-        //if (tick < 0) {
-        //    throw new IndexOutOfBoundsException("");
-        //}
+
     }
 
     /**
