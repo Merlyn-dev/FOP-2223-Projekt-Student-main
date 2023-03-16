@@ -56,6 +56,11 @@ class VehicleManagerImpl implements VehicleManager {
 
     private Set<AbstractOccupied<?>> getAllOccupied() {
         return crash(); // TODO: H6.2 - remove if implemented
+        //return Collections.unmodifiableSet(occupiedNodes, occupiedEdges)
+        Set<AbstractOccupied> set = new HashSet<>();
+        set.add((AbstractOccupied) occupiedEdges);
+        set.add((AbstractOccupied) occupiedNodes);
+        return set;
     }
 
     private OccupiedNodeImpl<? extends Region.Node> getOccupiedNode(Location location) {
@@ -95,11 +100,12 @@ class VehicleManagerImpl implements VehicleManager {
         if (!(component instanceof Region.Node || component instanceof Region.Edge)) {
             throw new IllegalArgumentException("Component is not of recognized subtype: " + component.getClass().getName());
         }
-        //Map<Region.Component, Occupied> map = component instanceof Region.Node ? occupiedNodes : occupiedEdges; //--
-        //if (map.get(component) == null) {
-        //    String type = component instanceof Region.Edge ? "edge" : "node";
-        //    throw new IllegalArgumentException("Could not find occupied " + type + " for " + component.toString());
-        //}
+
+        Map<Region.Component, Occupied> map = component instanceof Region.Node ? occupiedNodes : occupiedEdges; //--
+        if (map.get(component) == null) {
+            String type = component instanceof Region.Edge ? "edge" : "node";
+            throw new IllegalArgumentException("Could not find occupied " + type + " for " + component.toString());
+        }
         return null;
     }
 
