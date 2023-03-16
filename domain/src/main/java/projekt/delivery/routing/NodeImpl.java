@@ -69,14 +69,28 @@ class NodeImpl implements Region.Node {
     @Override
     public Set<Region.Node> getAdjacentNodes() {
         Set<Region.Node> adjacentNodes = new HashSet<>();
-
+        adjacentNodes.add(this); // Add the current node to the adjacent nodes set
+        for (Location connection : connections) {
+            Region.Node node = region.getNode(connection);
+            if (node != null) {
+                adjacentNodes.add(node); // Add the adjacent node to the set
+            }
+        }
         return adjacentNodes;
     }
 
     @Override
     public Set<Region.Edge> getAdjacentEdges() {
         Set<Region.Edge> adjacentEdges = new HashSet<>();
-
+        for (Location connection : connections) {
+            Region.Node adjacentNode = region.getNode(connection);
+            if (adjacentNode != null) {
+                Region.Edge edge = adjacentNode.getEdge(this);
+                if (edge != null) {
+                    adjacentEdges.add(edge);
+                }
+            }
+        }
         return adjacentEdges;
     }
 
