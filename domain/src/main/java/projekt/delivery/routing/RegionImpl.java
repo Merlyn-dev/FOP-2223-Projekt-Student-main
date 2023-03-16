@@ -76,17 +76,32 @@ class RegionImpl implements Region {
      * @param edge the {@link EdgeImpl} to add.
      */
     void putEdge(EdgeImpl edge) {
-        if (edge.getRegion() != this) {
-            throw new IllegalArgumentException("Node " + edge + " has incorrect region");
+        // check if the edge belongs to this region
+        if (!this.equals(edge.getRegion())) {
+            throw new IllegalArgumentException("Edge " + edge + " has incorrect region");
         }
-        if (edge.getNodeA() == null || edge.getNodeB() == null) {
-            String location = edge.getNodeA() == null ? edge.getNodeB().getLocation().toString() : edge.getNodeA().getLocation().toString();
-            throw new IllegalArgumentException("Node " + (edge.getNodeA() == null ? "A" : "B") + " " + location + " is not part of the region");
-        }
+        // check if both nodes of the edge are part of this region
         if (!nodes.containsValue(edge.getNodeA()) || !nodes.containsValue(edge.getNodeB())) {
-            throw new IllegalArgumentException("Node " + edge + " has incorrect region");
+            throw new IllegalArgumentException("Edge " + edge + " has incorrect region");
         }
-        allEdges.add(edge);
+        // check if both nodes of the edge are not null
+        if (edge.getNodeA() == null) {
+            throw new IllegalArgumentException("NodeA " + edge.getNodeA() + " is not part of the region");
+        }
+        if (edge.getNodeB() == null) {
+            throw new IllegalArgumentException("NodeB " + edge.getNodeB() + " is not part of the region");
+        }
+        // add the edge to the two-dimensional map
+        Location locA = edge.getNodeA().getLocation();
+        Location locB = edge.getNodeB().getLocation();
+        edges.computeIfAbsent(locA, k -> new HashMap<>()).put(locB, edge);
+        edges.computeIfAbsent(locB, k -> new HashMap<>()).put(locA, edge);
+        // add the edge to the one-dimensional list and maintain the sorting
+        int i = Collections.binarySearch(allEdges, edge);
+        if (i < 0) {
+            i = -(i + 1);
+        }
+        allEdges.add(i, edge);
     }
 
     @Override
