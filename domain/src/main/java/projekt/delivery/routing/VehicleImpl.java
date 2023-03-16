@@ -139,7 +139,7 @@ class VehicleImpl implements Vehicle {
 
         double komplettesGewicht = orders.stream().mapToDouble(ConfirmedOrder::getWeight).sum(); //ordergewicht
 
-        if (komplettesGewicht + order.getWeight() < capacity) { //is getweight = foodweight?
+        if (komplettesGewicht + order.getWeight() > capacity) { //is getweight = foodweight?
             throw new VehicleOverloadedException(this, komplettesGewicht - capacity); //---------
         }
         orders.add(order);
