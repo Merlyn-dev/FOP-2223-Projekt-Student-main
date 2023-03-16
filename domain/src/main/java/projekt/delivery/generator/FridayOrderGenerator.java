@@ -19,6 +19,7 @@ public class FridayOrderGenerator implements OrderGenerator {
 
     private final Random random;
 
+
     /**
      * Creates a new {@link FridayOrderGenerator} with the given parameters.
      * @param orderCount The total amount of orders this {@link OrderGenerator} will create. It is equal to the sum of
