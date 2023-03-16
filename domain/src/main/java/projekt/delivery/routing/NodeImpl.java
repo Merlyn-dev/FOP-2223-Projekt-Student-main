@@ -57,8 +57,8 @@ class NodeImpl implements Region.Node {
     @Override
     public @Nullable Region.Edge getEdge(Region.Node other) {
         for (Location connection : connections) {
-            //get edges betw. current node and connection
-            Region.Edge edge = region.getEdge(this, this); //------
+            // get edges between current node and connection
+            Region.Edge edge = region.getEdge(this, other);
             if (edge != null && (edge.getNodeB() == other || edge.getNodeA() == other)) {
                 return edge;
             }
