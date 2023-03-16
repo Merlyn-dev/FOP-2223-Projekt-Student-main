@@ -84,7 +84,7 @@ public final class Location implements Comparable<Location> {
 
     @Override
     public int hashCode() {
-        return 2048*x + y;
+        return 2048*x + y; //test
     }
 
     @Override
