@@ -56,7 +56,6 @@ public class FridayOrderGenerator implements OrderGenerator {
             throw new IndexOutOfBoundsException("negative tick value: " + tick);
         }
 
-        //vehicleManager.getOccupiedNeighborhoods();
 
         return crash(); // TODO: H7.1 - remove if implemented
 

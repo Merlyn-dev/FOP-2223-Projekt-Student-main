@@ -43,6 +43,7 @@ public class AmountDeliveredRater implements Rater {
 
     @Override
     public void onTick(List<Event> events, long tick) {
+
         crash(); // TODO: H8.1 - remove if implemented
     }
 
